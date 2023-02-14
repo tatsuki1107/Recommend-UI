@@ -47,3 +47,8 @@
   flex-wrap: wrap;
   gap: 65px;
 }
+
+.book-img {
+  width: 250px;
+  height: 350px;
+}

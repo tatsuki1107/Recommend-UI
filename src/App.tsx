@@ -5,25 +5,41 @@ import axios from 'axios';
 
 const API = "http://localhost:8000/api"
 
-const App: React.FC = () => {
-  const [recList, setRecList] = useState()
-  const [histList, setHistList] = useState()
-  const { user, onLogout } = useAuth();
+interface Recommend {
+  book_id: string,
+  book_author: string,
+  book_title: string,
+  image: string,
+  publisher: string,
+  year_of_publication: number,
+}
 
-  const recommend_list = [1, 2, 3, 4, 5]
-  const history_list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+interface History extends Recommend {
+  book_rating: number
+}
+
+
+const App: React.FC = () => {
+  const [recList, setRecList] = useState<Recommend[]>([])
+  const [histList, setHistList] = useState<History[]>([])
+  const { user, onLogout } = useAuth();
 
   useEffect(() => {
     (async () => {
-      const req = { "user_id": user }
       try {
-        await axios.post(`${API}/recommend_books`, req).then((res) => setRecList(res?.data)).catch((e) => console.error(e.response.data))
-      } catch (e) { }
+        const res = await axios.get(`${API}/recommend_books?user_id=${user}`)
+        setRecList(res?.data)
+      } catch (e) {
+        console.error(e)
+      }
       try {
-        await axios.post(`${API}/rating_history`, req).then((res) => setHistList(res?.data)).catch((e) => console.error(e.response.data))
-      } catch (e) { }
+        const res = await axios.get(`${API}/rating_history?user_id=${user}`)
+        setHistList(res?.data)
+      } catch (e) {
+        console.error(e)
+      }
     })()
-  }, [])
+  }, [user])
 
   return (
     <div className='app'>
@@ -40,15 +56,19 @@ const App: React.FC = () => {
       <main className='main'>
         <h2>あなたにオススメの商品</h2>
         <div className='recommend-contents'>
-          {recommend_list.map((i) => {
-            return <div className='item' key={i}>{i}</div>
+          {recList?.map((book, i) => {
+            return <div className='item' key={i}>
+              <img className='book-img' src={book.image} />
+            </div>
           })}
         </div>
 
         <h2>評価した商品</h2>
         <div className='history-contents'>
-          {history_list.map((i) => {
-            return <div className='item' key={i}>{i}</div>
+          {histList?.map((book, i) => {
+            return <div className='item' key={i}>
+              <img className='book-img' src={book.image} />
+            </div>
           })}
         </div>
       </main>

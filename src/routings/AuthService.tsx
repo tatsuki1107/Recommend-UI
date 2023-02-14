@@ -1,6 +1,8 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
+const API = "http://localhost:8000/api"
 
 type Props = {
   children: React.ReactNode;
@@ -40,7 +42,12 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     setUser(null)
   }
 
-  const onLogin = (uid: Number) => {
+  const onLogin = async (uid: Number) => {
+    /* try {
+       const params = { user_id: uid}
+       const headers = { Accept: "application/json"}
+       const res = await axios.post(`${API}/api/login`, {params, headers})
+     } */
     sessionStorage.setItem("user", String(uid))
     validationUser()
     navigate("/")
