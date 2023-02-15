@@ -1,23 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { useAuth } from './routings/AuthService';
+import { useAuth, API } from './routings/AuthService';
 import axios from 'axios';
-
-const API = "http://localhost:8000/api"
-
-interface Recommend {
-  book_id: string,
-  book_author: string,
-  book_title: string,
-  image: string,
-  publisher: string,
-  year_of_publication: number,
-}
-
-interface History extends Recommend {
-  book_rating: number
-}
-
+import { Recommend, History } from './type';
 
 const App: React.FC = () => {
   const [recList, setRecList] = useState<Recommend[]>([])
@@ -56,20 +41,33 @@ const App: React.FC = () => {
       <main className='main'>
         <h2>あなたにオススメの商品</h2>
         <div className='recommend-contents'>
-          {recList?.map((book, i) => {
-            return <div className='item' key={i}>
-              <img className='book-img' src={book.image} />
+          {recList?.map((book, i) => (
+            <div className='item-info' key={i}>
+              <div className='item'>
+                <img className='book-img' src={book.image} alt={book.book_title} />
+              </div>
+              <p>タイトル: {book.book_title}</p>
+              <p>著者名: {book.book_author}</p>
+              <p>出版社: {book.publisher}</p>
+              <p>{book.year_of_publication}年に出版</p>
             </div>
-          })}
+          ))}
         </div>
 
         <h2>評価した商品</h2>
         <div className='history-contents'>
-          {histList?.map((book, i) => {
-            return <div className='item' key={i}>
-              <img className='book-img' src={book.image} />
+          {histList?.map((book, i) => (
+            <div className='item-info' key={i}>
+              <div className='item'>
+                <img className='book-img' src={book.image} alt={book.book_title} />
+              </div>
+              <p>評価: {book.book_rating}</p>
+              <p>タイトル: {book.book_title}</p>
+              <p>著者名: {book.book_author}</p>
+              <p>出版社: {book.publisher}</p>
+              <p>{book.year_of_publication}年に出版</p>
             </div>
-          })}
+          ))}
         </div>
       </main>
 

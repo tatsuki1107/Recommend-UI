@@ -1,12 +1,9 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthService";
+import { Children } from "../type";
 
-type Props = {
-  children: React.ReactNode
-}
-
-const LoggedInRoute: React.FC<Props> = ({ children }) => {
+const LoggedInRoute: React.FC<Children> = ({ children }) => {
   const { user } = useAuth();
 
   if (!user) {

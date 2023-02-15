@@ -1,18 +1,9 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Children, Context } from "../type";
 
-const API = "http://localhost:8000/api"
-
-type Props = {
-  children: React.ReactNode;
-}
-
-type Context = {
-  user: Number | null;
-  onLogin: (uid: Number) => void;
-  onLogout: () => void;
-}
+export const API = "http://localhost:8000/api"
 
 const initialContext: Context = {
   user: null,
@@ -20,10 +11,9 @@ const initialContext: Context = {
   onLogout: () => { }
 }
 
-
 const AuthContext = createContext<Context>(initialContext);
 
-const AuthProvider: React.FC<Props> = ({ children }) => {
+const AuthProvider: React.FC<Children> = ({ children }) => {
   const [user, setUser] = useState<Number | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -43,14 +33,20 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   }
 
   const onLogin = async (uid: Number) => {
-    /* try {
-       const params = { user_id: uid}
-       const headers = { Accept: "application/json"}
-       const res = await axios.post(`${API}/api/login`, {params, headers})
-     } */
-    sessionStorage.setItem("user", String(uid))
-    validationUser()
-    navigate("/")
+    try {
+      const headers = { Accept: "application/json" }
+      const res = await axios.post(`${API}/login?user_id=${uid}`, null, { headers })
+
+      if (res?.data.status === 200) {
+        sessionStorage.setItem("user", String(uid))
+        validationUser()
+        navigate("/")
+      } else {
+        alert('このユーザーは存在しません。')
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   useEffect(() => {

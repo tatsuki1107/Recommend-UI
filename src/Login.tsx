@@ -22,9 +22,11 @@ const Login: React.FC = () => {
         </header>
 
         <main className="main">
-          <h1>ログイン画面</h1>
-          <input onChange={(e) => setState(Number(e.target.value))} />
-          <button onClick={() => onLogin(Number(state))}>送信</button>
+          <div className="login-box">
+            <h1>ログイン画面</h1>
+            <input onChange={(e) => setState(Number(e.target.value))} />
+            <button onClick={() => onLogin(Number(state))}>送信</button>
+          </div>
         </main>
       </div>
     </>
