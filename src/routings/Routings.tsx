@@ -5,6 +5,7 @@ import LoggedInRoute from "./LoggedInRoute";
 import Login from "../Login";
 
 import App from "../App";
+import Search from "../Search";
 
 
 const Routing = () => {
@@ -19,6 +20,14 @@ const Routing = () => {
             element={
               <LoggedInRoute>
                 <App />
+              </LoggedInRoute>
+            } />
+
+          <Route
+            path="/search"
+            element={
+              <LoggedInRoute>
+                <Search />
               </LoggedInRoute>
             } />
         </Routes>

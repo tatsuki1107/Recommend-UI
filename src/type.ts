@@ -7,7 +7,7 @@ export interface Recommend {
   year_of_publication: number,
 }
 
-export interface History extends Recommend {
+interface History extends Recommend {
   book_rating: number
 }
 
@@ -19,4 +19,23 @@ export type Context = {
   user: Number | null;
   onLogin: (uid: Number) => void;
   onLogout: () => void;
+}
+
+interface Statistics {
+  count: number;
+  mean: number;
+}
+
+interface RatedAuthor extends Statistics {
+  book_author: string;
+}
+
+interface RatedPublisher extends Statistics {
+  publisher: string;
+}
+
+export interface BookInfo {
+  history_book: History[];
+  rated_book_author: RatedAuthor[];
+  rated_publisher: RatedPublisher[];
 }
