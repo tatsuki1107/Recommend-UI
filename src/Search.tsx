@@ -24,7 +24,8 @@ const Search = () => {
   useEffect(() => {
     (async () => {
       try {
-        /* const res = await axios.get(`${API}/vector_search?query=${query}`) */
+        const res = await axios.get(`${API}/vector_search?query=${query}`)
+        setBook(res?.data)
       } catch (e) {
         console.error(e)
       }
@@ -35,7 +36,7 @@ const Search = () => {
     <div className='app'>
       <header className='header'>
         <div className='header-contents'>
-          <h1>Booking.com demo</h1>
+          <h1>Book Market Demo</h1>
           <input
             className="search"
             placeholder='本を検索する'

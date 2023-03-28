@@ -14,7 +14,7 @@ const Login: React.FC = () => {
       <div className="App">
         <header className='header'>
           <div className='header-contents'>
-            <h1>Booking.com demo</h1>
+            <h1>Book Market Demo</h1>
             <p>
               ログアウト中
             </p>
